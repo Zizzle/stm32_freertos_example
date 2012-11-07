@@ -1,0 +1,12 @@
+openocd -f jtag/stm_board.cfg
+
+telnet localhost 4444
+
+
+reset halt
+flash probe 0
+stm32f1x mass_erase 0
+flash write_bank 0 RTOSDemo.bin 0
+reset halt
+
+arm-none-eabi-gdbtui --eval-command="target remote localhost:3333" RTOSDemo.axf 
