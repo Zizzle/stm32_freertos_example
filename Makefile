@@ -87,7 +87,8 @@ CFLAGS=-g$(DEBUG)\
 
 # Source files
 #stm3210e_lcd.c 
-SOURCE=	main.c 	drivers/lcd.c \
+SOURCE=	main.c \
+		drivers/lcd_common.c \
 		stf_syscalls_minimal.c \
 		drivers/touch.c \
 		drivers/serial.c \

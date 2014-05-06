@@ -21,9 +21,9 @@ void SPI_CS(u8 a)
 {
   // PD6 -> TS_nC
   if (a)
-    GPIO_SetBits(GPIOB,GPIO_Pin_7);
+    GPIO_SetBits(GPIOA,GPIO_Pin_4);
   else
-    GPIO_ResetBits(GPIOB,GPIO_Pin_7);
+    GPIO_ResetBits(GPIOA,GPIO_Pin_4);
 }
 
 void SPI_DIN(u8 a)
@@ -147,16 +147,10 @@ void Touch_Initializtion()
 
     
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7; //CLK, Din
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7 | GPIO_Pin_4; //CLK, Din, cs
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7; //nCS
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
     
     printf("Touch Hardware Initialised!\r\n");
 
@@ -196,7 +190,7 @@ int16_t  Touch_MeasurementY(void)
     p>>=3;
     p = (p-380)/14;
     if (p < 240)
-        return ( 240 - p );
+        return ( p );
     else return -1;
 }
 
@@ -213,7 +207,7 @@ int16_t  Touch_MeasurementX(void)
     p>>=3;
     p = (((p-210)*2)/23);
     if (p < 320)
-        return ( p );
+        return ( 320-p );
     else return -1;
 }
 
